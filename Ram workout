@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>5-Day Workout Tracker</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    ul {
+      text-align: left;
+      padding-left: 20px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="day-title">Day 1</h2>
+    <ul id="workout-list"></ul>
+    <button onclick="markCompleted()">Mark as Completed</button>
+  </div>
+
+  <script>
+    const workouts = [
+      {
+        title: "Push + Core",
+        exercises: [
+          "Push-ups – 3 sets of 15",
+          "Shoulder Taps – 3 sets of 20",
+          "Plank – 3 x 30 sec",
+          "Crunches – 3 sets of 25"
+        ]
+      },
+      {
+        title: "Pull + Cardio",
+        exercises: [
+          "Pull-ups or Rows – 3 sets of 10",
+          "Jumping Jacks – 3 x 1 min",
+          "Mountain Climbers – 3 sets of 30 sec",
+          "Superman Hold – 3 x 20 sec"
+        ]
+      },
+      {
+        title: "Legs + Mobility",
+        exercises: [
+          "Bodyweight Squats – 3 sets of 20",
+          "Lunges – 3 sets of 10/leg",
+          "Glute Bridges – 3 sets of 15",
+          "Hip Circles – 2 sets of 10 each direction"
+        ]
+      },
+      {
+        title: "Yoga + Breathwork",
+        exercises: [
+          "Sun Salutations – 5 rounds",
+          "Cat-Cow – 2 min",
+          "Child’s Pose – 2 min",
+          "Box Breathing – 5 min"
+        ]
+      },
+      {
+        title: "HIIT + Stretch",
+        exercises: [
+          "Burpees – 3 sets of 10",
+          "High Knees – 3 x 30 sec",
+          "Jump Squats – 3 sets of 15",
+          "Hamstring Stretch – 2 min each leg"
+        ]
+      }
+    ];
+
+    function getDayIndex() {
+      return parseInt(localStorage.getItem("workoutDay")) || 0;
+    }
+
+    function updateWorkout() {
+      const index = getDayIndex();
+      const day = workouts[index];
+      document.getElementById("day-title").textContent = `Day ${index + 1}: ${day.title}`;
+      const list = document.getElementById("workout-list");
+      list.innerHTML = "";
+      day.exercises.forEach(ex => {
+        const li = document.createElement("li");
+        li.textContent = ex;
+        list.appendChild(li);
+      });
+    }
+
+    function markCompleted() {
+      let index = getDayIndex();
+      index = (index + 1) % workouts.length;
+      localStorage.setItem("workoutDay", index);
+      updateWorkout();
+    }
+
+    updateWorkout();
+  </script>
+</body>
+</html>
